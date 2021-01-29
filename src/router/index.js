@@ -4,7 +4,7 @@ const Home = () => import('../views/Home/Home')
 const Cart = () => import('../views/Cart/Cart')
 const Category = () => import('../views/Category/Category')
 const Profile = () => import('../views/Profile/Profile')
-
+const Detail = () => import('../views/detail/Detail')
 Vue.use(Router)
 
 export default new Router({
@@ -29,6 +29,10 @@ export default new Router({
        path:'/profile',
        component:Profile
       },
+      {
+        path:'/detail/:iid',
+        component:Detail
+       },
   ],
   mode:'history'
 })
