@@ -22,13 +22,15 @@ import FeatureView from './childComps/FeatureView'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
-import BackTop from 'components/content/backTop/BackTop'
+import {backTopMixin} from 'common/mixin'
+
 
 import {getHomeMultidata,getHomeGoods} from 'network/home'
 import {debounce} from 'common/utils'
 
 export default {
     name:'home',
+    mixins:[backTopMixin],
    data() {
       return {  
           banners:[],
@@ -42,11 +44,12 @@ export default {
           isShowBackTop:false,
           tabOffsetTop:0,
           isTabFixed:false,
-          saveY:0
+          saveY:0,
+          
       }
    },
    components:{
-    NavBar,HomeSwiper,RecommendView,FeatureView,TabControl,GoodsList, Scroll,BackTop
+    NavBar,HomeSwiper,RecommendView,FeatureView,TabControl,GoodsList, Scroll
    },
    created(){
      this.getHomeMultidata()
@@ -58,11 +61,13 @@ export default {
    computed:{
    },
    activated() {
-    this.$refs.scroll.scrollTo(0,this.saveY,0)
+    this.$refs.scroll.scrollTo(0,this.saveY,300)
     this.$refs.scroll.refresh()
    },
    deactivated() {
      this.saveY = this.$refs.scroll.getScrollY()
+     
+     
    },
    mounted() {
      const refresh = debounce(this.$refs.scroll.refresh,50)
@@ -92,11 +97,8 @@ export default {
      this.$refs.TabControl1.currentIndex = index;
       this.$refs.TabControl2.currentIndex = index;
      },
-      backClick() {
-     this.$refs.scroll.scrollTo(0,0,500)
-   },
    contentScroll(position) {
-    this.isShowBackTop = (-position.y) > 1000
+    this. listenShowBackTop(position);
     this.isTabFixed = (-position.y) > this.tabOffsetTop
    },
 

@@ -34,5 +34,6 @@ export default new Router({
         component:Detail
        },
   ],
-  mode:'history'
+  mode:'history',
+ 
 })
